@@ -4,24 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class ProdutoController extends Controller
+class ClienteControler extends Controller
 {
-    public function index(){
+    public function indexCliente(){
         $produtos = Produto::all();
 
         $produtosComImagem = $produtos->map(function($produto){
             return [
+                'foto' => asset('storage/'. $produto->foto),
                 'nome' => $produto->nome,
-                'preco' => $produto->preco,
-                'ingredientes' => $produto->ingredientes,
-                'imagem' => asset('storage/'. $produto->imagem),
+                'telefone' => $produto->telefone,
+                'endereco' => $produto->endereco,
+                'email' => $produto->email,
+                'password' => Hash::make($produto->password),
+            
             ];
         });
         return response()->json($produtosComImagem);
     }
 
-    public function store(Request $request){
+    public function storeCliente(Request $request){
         $produtoData = $request->all();
 
         if($request->hasFile('imagem')){
@@ -33,5 +37,4 @@ class ProdutoController extends Controller
         $produto = Produto::create($produtoData);
         return response()->json(['produto'=>$produto], 201);
     }
-
 }
