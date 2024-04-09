@@ -2,39 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produto;
+use App\Http\Requests\ClienteFormRequest;
+use App\Models\cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ClienteControler extends Controller
 {
     public function indexCliente(){
-        $produtos = Produto::all();
+        $clientes = cliente::all();
 
-        $produtosComImagem = $produtos->map(function($produto){
+        $clientesComImagem = $clientes->map(function($cliente){
             return [
-                'foto' => asset('storage/'. $produto->foto),
-                'nome' => $produto->nome,
-                'telefone' => $produto->telefone,
-                'endereco' => $produto->endereco,
-                'email' => $produto->email,
-                'password' => Hash::make($produto->password),
+                'foto' => asset('storage/'. $cliente->foto),
+                'nome' => $cliente->nome,
+                'telefone' => $cliente->telefone,
+                'endereco' => $cliente->endereco,
+                'email' => $cliente->email,
+                'password' => Hash::make($cliente->password),
             
             ];
         });
-        return response()->json($produtosComImagem);
+        return response()->json($clientesComImagem);
     }
 
-    public function storeCliente(Request $request){
-        $produtoData = $request->all();
+    public function storeCliente(ClienteFormRequest $request){
+        $clienteData = $request->all();
 
         if($request->hasFile('imagem')){
             $imagem = $request->file('imagem');
             $nomeImagem = time().'.'.$imagem->getClientOriginalExtension();
-            $caminhoImagem= $imagem->storeAs('imagens/produtos', $nomeImagem,'public');
-            $produtoData['imagem']= $caminhoImagem;
+            $caminhoImagem= $imagem->storeAs('imagens/clientes', $nomeImagem,'public');
+            $clienteData['imagem']= $caminhoImagem;
         }
-        $produto = Produto::create($produtoData);
-        return response()->json(['produto'=>$produto], 201);
+        $cliente = cliente::create($clienteData);
+        return response()->json(['cliente'=>$cliente], 201);
     }
 }

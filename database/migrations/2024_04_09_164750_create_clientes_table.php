@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('foto')->nullable(false);
             $table->string('nome',80)->nullable(false);
-            $table->number('telefone', 10,2)->nullable(false);
+            $table->string('telefone', 11)->nullable(false);
             $table->string('endereco')->nullable(false);
             $table->string('email')->nullable(false);
             $table->string('password')->nullable(false);

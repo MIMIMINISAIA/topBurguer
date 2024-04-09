@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProdutoFormRequest;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,15 @@ class ProdutoController extends Controller
         $produtosComImagem = $produtos->map(function($produto){
             return [
                 'nome' => $produto->nome,
-                'preco' => $produto->preco,
-                'ingredientes' => $produto->ingredientes,
+                'valor' => $produto->valor,
+                'descricao' => $produto->descricao,
                 'imagem' => asset('storage/'. $produto->imagem),
             ];
         });
         return response()->json($produtosComImagem);
     }
 
-    public function store(Request $request){
+    public function store(ProdutoFormRequest $request){
         $produtoData = $request->all();
 
         if($request->hasFile('imagem')){
