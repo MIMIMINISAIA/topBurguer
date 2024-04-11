@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('telefone', 11)->nullable(false);
             $table->string('endereco')->nullable(false);
             $table->string('email')->nullable(false);
+            $table->string('cpf')->nullable(false);
             $table->string('password')->nullable(false);
             $table->timestamps();
         });
