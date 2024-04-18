@@ -38,4 +38,13 @@ class ClienteControler extends Controller
         $cliente = cliente::create($clienteData);
         return response()->json(['cliente'=>$cliente], 201);
     }
+
+    public function retornarTodos()
+    {
+        $clientes = cliente::all();
+        return response()->json([
+            'status' => true,
+            'data' => $clientes
+        ]);
+    }
 }

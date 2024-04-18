@@ -35,4 +35,13 @@ class ProdutoController extends Controller
         return response()->json(['produto'=>$produto], 201);
     }
 
+    public function retornarTodos()
+    {
+        $clientes = Produto::all();
+        return response()->json([
+            'status' => true,
+            'data' => $clientes
+        ]);
+    }
+
 }
